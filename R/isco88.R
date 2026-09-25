@@ -176,9 +176,14 @@ isco88_to_oep <- function(x, to_factor = FALSE) {
   x <- repair_isco(x, digits = 4)
   check_isco(x, check_isco = "isco88")
 
-  # Count zeros to determine digit level
+  # Handle empty input
   x_clean <- x[!is.na(x)]
-  digit_level <- nchar(gsub("0+$", "", x_clean[1]))
+  if (length(x_clean) == 0) {
+    return(x)
+  }
+
+  # Count zeros to determine digit level
+  digit_level <- nchar(x_clean[1])
 
   schema_name <- paste0("isco88_", digit_level, "_to_oep88")
 
